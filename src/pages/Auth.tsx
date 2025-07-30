@@ -106,7 +106,7 @@ const Auth = () => {
 
         <Card className="shadow-2xl border-0 bg-card/95 backdrop-blur">
           <CardHeader className="text-center">
-            <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            <CardTitle className="text-3xl font-brand font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               GIGGI
             </CardTitle>
             <CardDescription>

@@ -26,7 +26,7 @@ const Index = () => {
         {/* Hero Section */}
         <div className="container mx-auto px-4 py-8">
           <div className="text-center mb-8">
-            <h1 className="text-6xl font-bold mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+            <h1 className="text-6xl font-brand font-black mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
               GIGGI
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
@@ -99,7 +99,7 @@ const Index = () => {
       {/* Header */}
       <header className="border-b bg-card/80 backdrop-blur">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
+          <h1 className="text-2xl font-brand font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
             GIGGI
           </h1>
           <div className="flex items-center gap-4">
