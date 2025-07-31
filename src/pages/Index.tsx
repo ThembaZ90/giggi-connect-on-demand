@@ -157,7 +157,10 @@ const Index = () => {
               </CardDescription>
             </CardHeader>
             <CardContent>
-              <Button className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90">
+              <Button 
+                className="w-full bg-gradient-to-r from-primary to-secondary hover:from-primary/90 hover:to-secondary/90"
+                onClick={() => navigate('/create-gig')}
+              >
                 Create Gig Posting
               </Button>
             </CardContent>

@@ -14,6 +14,71 @@ export type Database = {
   }
   public: {
     Tables: {
+      gigs: {
+        Row: {
+          budget_max: number | null
+          budget_min: number | null
+          category: Database["public"]["Enums"]["gig_category"]
+          contact_phone: string | null
+          created_at: string
+          description: string
+          duration_hours: number | null
+          id: string
+          is_urgent: boolean
+          location: string
+          poster_id: string
+          preferred_start_date: string | null
+          required_skills: string[] | null
+          status: Database["public"]["Enums"]["gig_status"]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          budget_max?: number | null
+          budget_min?: number | null
+          category: Database["public"]["Enums"]["gig_category"]
+          contact_phone?: string | null
+          created_at?: string
+          description: string
+          duration_hours?: number | null
+          id?: string
+          is_urgent?: boolean
+          location: string
+          poster_id: string
+          preferred_start_date?: string | null
+          required_skills?: string[] | null
+          status?: Database["public"]["Enums"]["gig_status"]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          budget_max?: number | null
+          budget_min?: number | null
+          category?: Database["public"]["Enums"]["gig_category"]
+          contact_phone?: string | null
+          created_at?: string
+          description?: string
+          duration_hours?: number | null
+          id?: string
+          is_urgent?: boolean
+          location?: string
+          poster_id?: string
+          preferred_start_date?: string | null
+          required_skills?: string[] | null
+          status?: Database["public"]["Enums"]["gig_status"]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gigs_poster_id_fkey"
+            columns: ["poster_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           bio: string | null
@@ -67,6 +132,18 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      gig_category:
+        | "cleaning"
+        | "moving"
+        | "delivery"
+        | "handyman"
+        | "gardening"
+        | "tech_support"
+        | "tutoring"
+        | "pet_care"
+        | "event_help"
+        | "other"
+      gig_status: "open" | "in_progress" | "completed" | "cancelled"
       user_type: "job_poster" | "gig_worker" | "both"
     }
     CompositeTypes: {
@@ -195,6 +272,19 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      gig_category: [
+        "cleaning",
+        "moving",
+        "delivery",
+        "handyman",
+        "gardening",
+        "tech_support",
+        "tutoring",
+        "pet_care",
+        "event_help",
+        "other",
+      ],
+      gig_status: ["open", "in_progress", "completed", "cancelled"],
       user_type: ["job_poster", "gig_worker", "both"],
     },
   },
