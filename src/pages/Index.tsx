@@ -14,7 +14,7 @@ const Index = () => {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-primary/10 via-secondary/10 to-accent/10">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading Giggi...</p>
+          <p className="text-muted-foreground">Loading Grafty...</p>
         </div>
       </div>
     );
@@ -27,7 +27,7 @@ const Index = () => {
         <div className="container mx-auto px-4 py-8">
           <div className="text-center mb-8">
             <h1 className="text-6xl font-brand font-black mb-4 bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              GIGGI
+              GRAFTY
             </h1>
             <p className="text-xl text-muted-foreground mb-8">
               Connect. Work. Earn. Your gig economy starts here.
@@ -100,7 +100,7 @@ const Index = () => {
       <header className="border-b bg-card/80 backdrop-blur">
         <div className="container mx-auto px-4 py-4 flex justify-between items-center">
           <h1 className="text-2xl font-brand font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-            GIGGI
+            GRAFTY
           </h1>
           <div className="flex items-center gap-4">
             <Badge variant="outline" className="flex items-center gap-2">
@@ -123,7 +123,7 @@ const Index = () => {
       {/* Main Content */}
       <div className="container mx-auto px-4 py-8">
         <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold mb-4">Welcome to Giggi!</h2>
+          <h2 className="text-3xl font-bold mb-4">Welcome to Grafty!</h2>
           <p className="text-muted-foreground mb-8">
             Your gig economy platform is ready. What would you like to do today?
           </p>

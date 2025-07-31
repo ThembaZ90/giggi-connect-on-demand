@@ -8,7 +8,7 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    /* Giggi Brand Colors - Vibrant Gradient Palette */
+    /* Grafty Brand Colors - Vibrant Gradient Palette */
     --background: 0 0% 100%;
     --foreground: 0 0% 20%; /* Dark gray #333 */
 
@@ -42,7 +42,7 @@ All colors MUST be HSL.
 
     --radius: 0.75rem;
 
-    /* Gradients for Giggi branding */
+    /* Gradients for Grafty branding */
     --gradient-primary: linear-gradient(135deg, hsl(200, 100%, 50%), hsl(280, 100%, 63%));
     --gradient-secondary: linear-gradient(135deg, hsl(280, 100%, 63%), hsl(158, 100%, 50%));
     --gradient-accent: linear-gradient(135deg, hsl(200, 100%, 50%), hsl(158, 100%, 50%));

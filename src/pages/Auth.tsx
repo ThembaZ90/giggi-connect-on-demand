@@ -49,7 +49,7 @@ const Auth = () => {
         });
       } else {
         toast({
-          title: "Welcome to Giggi!",
+          title: "Welcome to Grafty!",
           description: "Your account has been created successfully."
         });
         navigate('/');
@@ -83,7 +83,7 @@ const Auth = () => {
       } else {
         toast({
           title: "Welcome back!",
-          description: "You're now logged in to Giggi."
+          description: "You're now logged in to Grafty."
         });
         navigate('/');
       }
@@ -107,7 +107,7 @@ const Auth = () => {
         <Card className="shadow-2xl border-0 bg-card/95 backdrop-blur">
           <CardHeader className="text-center">
             <CardTitle className="text-3xl font-brand font-black bg-gradient-to-r from-primary via-secondary to-accent bg-clip-text text-transparent">
-              GIGGI
+              GRAFTY
             </CardTitle>
             <CardDescription>
               Connect. Work. Earn. Your gig economy starts here.
@@ -199,7 +199,7 @@ const Auth = () => {
                     className="w-full bg-gradient-to-r from-secondary to-accent hover:from-secondary/90 hover:to-accent/90"
                     disabled={isLoading}
                   >
-                    {isLoading ? 'Creating Account...' : 'Join Giggi'}
+                    {isLoading ? 'Creating Account...' : 'Join Grafty'}
                   </Button>
                 </form>
               </TabsContent>
