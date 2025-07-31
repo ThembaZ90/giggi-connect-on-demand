@@ -1,4 +1,5 @@
 import { useAuth } from '@/hooks/useAuth';
+import { useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -6,8 +7,21 @@ import { useNavigate } from 'react-router-dom';
 import { LogOut, User, MapPin, Briefcase, Zap } from 'lucide-react';
 
 const Index = () => {
-  const { user, loading, signOut } = useAuth();
+  const { user, loading, signOut, checkProfileComplete } = useAuth();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const checkProfile = async () => {
+      if (user) {
+        const isComplete = await checkProfileComplete();
+        if (!isComplete) {
+          navigate('/profile-setup');
+        }
+      }
+    };
+    
+    checkProfile();
+  }, [user, checkProfileComplete, navigate]);
 
   if (loading) {
     return (

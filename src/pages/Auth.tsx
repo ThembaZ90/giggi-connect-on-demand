@@ -52,7 +52,7 @@ const Auth = () => {
           title: "Welcome to Grafty!",
           description: "Your account has been created successfully."
         });
-        navigate('/');
+        navigate('/profile-setup');
       }
     } finally {
       setIsLoading(false);

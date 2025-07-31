@@ -9,6 +9,7 @@ interface AuthContextType {
   signUp: (email: string, password: string, fullName: string) => Promise<{ error: any }>;
   signIn: (email: string, password: string) => Promise<{ error: any }>;
   signOut: () => Promise<void>;
+  checkProfileComplete: () => Promise<boolean>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -68,6 +69,18 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
     await supabase.auth.signOut();
   };
 
+  const checkProfileComplete = async (): Promise<boolean> => {
+    if (!user) return false;
+    
+    const { data } = await supabase
+      .from('profiles')
+      .select('phone, location')
+      .eq('user_id', user.id)
+      .single();
+    
+    return !!(data?.phone && data?.location);
+  };
+
   return (
     <AuthContext.Provider value={{
       user,
@@ -75,7 +88,8 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       loading,
       signUp,
       signIn,
-      signOut
+      signOut,
+      checkProfileComplete
     }}>
       {children}
     </AuthContext.Provider>
