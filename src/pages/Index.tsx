@@ -4,7 +4,8 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, MapPin, Briefcase, Zap } from 'lucide-react';
+import { LogOut, User, MapPin, Briefcase, Zap, Search } from 'lucide-react';
+import { GigList } from '@/components/GigList';
 
 const Index = () => {
   const { user, loading, signOut, checkProfileComplete } = useAuth();
@@ -143,7 +144,7 @@ const Index = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+        <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto mb-12">
           <Card className="border-0 shadow-lg bg-card/80 backdrop-blur hover:shadow-xl transition-shadow cursor-pointer">
             <CardHeader>
               <CardTitle className="flex items-center gap-3">
@@ -184,6 +185,15 @@ const Index = () => {
               </Button>
             </CardContent>
           </Card>
+        </div>
+
+        {/* Available Gigs */}
+        <div>
+          <div className="flex items-center gap-2 mb-6">
+            <Search className="h-5 w-5" />
+            <h2 className="text-2xl font-bold">Available Gigs</h2>
+          </div>
+          <GigList />
         </div>
       </div>
     </div>
