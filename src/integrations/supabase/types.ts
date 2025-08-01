@@ -14,6 +14,54 @@ export type Database = {
   }
   public: {
     Tables: {
+      gig_applications: {
+        Row: {
+          created_at: string
+          gig_id: string
+          id: string
+          message: string | null
+          proposed_rate: number | null
+          status: Database["public"]["Enums"]["application_status"]
+          updated_at: string
+          worker_id: string
+        }
+        Insert: {
+          created_at?: string
+          gig_id: string
+          id?: string
+          message?: string | null
+          proposed_rate?: number | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          worker_id: string
+        }
+        Update: {
+          created_at?: string
+          gig_id?: string
+          id?: string
+          message?: string | null
+          proposed_rate?: number | null
+          status?: Database["public"]["Enums"]["application_status"]
+          updated_at?: string
+          worker_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gig_applications_gig_id_fkey"
+            columns: ["gig_id"]
+            isOneToOne: false
+            referencedRelation: "gigs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gig_applications_worker_id_fkey"
+            columns: ["worker_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["user_id"]
+          },
+        ]
+      }
       gigs: {
         Row: {
           budget_max: number | null
@@ -132,6 +180,7 @@ export type Database = {
       [_ in never]: never
     }
     Enums: {
+      application_status: "pending" | "accepted" | "rejected" | "withdrawn"
       gig_category:
         | "cleaning"
         | "moving"
@@ -272,6 +321,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
+      application_status: ["pending", "accepted", "rejected", "withdrawn"],
       gig_category: [
         "cleaning",
         "moving",

@@ -7,6 +7,8 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Search, MapPin, Clock, DollarSign, Phone } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/hooks/useAuth';
+import { GigApplicationDialog } from './GigApplicationDialog';
 
 interface Gig {
   id: string;
@@ -22,6 +24,7 @@ interface Gig {
   contact_phone: string | null;
   preferred_start_date: string | null;
   created_at: string;
+  poster_id: string;
   profiles: {
     full_name: string;
   } | null;
@@ -34,6 +37,7 @@ export function GigList() {
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('newest');
   const { toast } = useToast();
+  const { user } = useAuth();
 
   const categories = [
     'cleaning',
@@ -260,9 +264,28 @@ export function GigList() {
                   <span className="text-xs text-muted-foreground">
                     Posted {new Date(gig.created_at).toLocaleDateString()}
                   </span>
-                  <Button size="sm">
-                    Contact
-                  </Button>
+                  <div className="flex gap-2">
+                    {gig.contact_phone && (
+                      <Button size="sm" variant="outline">
+                        Call
+                      </Button>
+                    )}
+                    {user && user.id !== gig.poster_id ? (
+                      <GigApplicationDialog
+                        gigId={gig.id}
+                        gigTitle={gig.title}
+                        budgetMin={gig.budget_min}
+                        budgetMax={gig.budget_max}
+                        onApplicationSubmitted={fetchGigs}
+                      />
+                    ) : (
+                      user && user.id === gig.poster_id && (
+                        <Badge variant="outline" className="text-xs">
+                          Your Gig
+                        </Badge>
+                      )
+                    )}
+                  </div>
                 </div>
               </CardContent>
             </Card>

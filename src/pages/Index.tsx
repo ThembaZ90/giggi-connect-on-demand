@@ -4,8 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, MapPin, Briefcase, Zap, Search } from 'lucide-react';
+import { LogOut, User, MapPin, Briefcase, Zap, Search, FileText } from 'lucide-react';
 import { GigList } from '@/components/GigList';
+import { MyApplications } from '@/components/MyApplications';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Index = () => {
   const { user, loading, signOut, checkProfileComplete } = useAuth();
@@ -187,14 +189,31 @@ const Index = () => {
           </Card>
         </div>
 
-        {/* Available Gigs */}
-        <div>
-          <div className="flex items-center gap-2 mb-6">
-            <Search className="h-5 w-5" />
-            <h2 className="text-2xl font-bold">Available Gigs</h2>
-          </div>
-          <GigList />
-        </div>
+        {/* Main Content Tabs */}
+        <Tabs defaultValue="browse-gigs" className="w-full">
+          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-8">
+            <TabsTrigger value="browse-gigs" className="flex items-center gap-2">
+              <Search className="h-4 w-4" />
+              Browse Gigs
+            </TabsTrigger>
+            <TabsTrigger value="my-applications" className="flex items-center gap-2">
+              <FileText className="h-4 w-4" />
+              My Applications
+            </TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="browse-gigs">
+            <div className="flex items-center gap-2 mb-6">
+              <Search className="h-5 w-5" />
+              <h2 className="text-2xl font-bold">Available Gigs</h2>
+            </div>
+            <GigList />
+          </TabsContent>
+
+          <TabsContent value="my-applications">
+            <MyApplications />
+          </TabsContent>
+        </Tabs>
       </div>
     </div>
   );
