@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, MapPin, Briefcase, Zap, Search, FileText } from 'lucide-react';
+import { LogOut, User, MapPin, Briefcase, Zap, Search, FileText, LayoutDashboard } from 'lucide-react';
 import { GigList } from '@/components/GigList';
 import { MyApplications } from '@/components/MyApplications';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
@@ -124,6 +124,15 @@ const Index = () => {
               <User className="h-3 w-3" />
               {user.email}
             </Badge>
+            <Button 
+              variant="outline" 
+              size="sm"
+              onClick={() => navigate('/dashboard')}
+              className="flex items-center gap-2"
+            >
+              <LayoutDashboard className="h-4 w-4" />
+              Dashboard
+            </Button>
             <Button 
               variant="outline" 
               size="sm"
