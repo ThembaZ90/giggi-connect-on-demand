@@ -60,7 +60,7 @@ export function PayWorkerDialog({
 
       toast({
         title: "Payment Successful!",
-        description: `Paid ${workerName} $${data.netAmount} (after 3% service fee of $${data.serviceFee})`,
+        description: `Paid ${workerName} R${data.netAmount} (after 3% service fee of R${data.serviceFee})`,
       });
       
       setOpen(false);
@@ -104,7 +104,7 @@ export function PayWorkerDialog({
         
         <form onSubmit={handlePayment} className="space-y-4">
           <div>
-            <Label htmlFor="amount">Payment Amount ($) *</Label>
+            <Label htmlFor="amount">Payment Amount (ZAR) *</Label>
             <Input
               id="amount"
               type="number"
@@ -117,7 +117,7 @@ export function PayWorkerDialog({
             />
             {proposedRate && (
               <p className="text-sm text-muted-foreground mt-1">
-                Proposed rate: ${proposedRate}
+                Proposed rate: R${proposedRate}
               </p>
             )}
           </div>
@@ -127,15 +127,15 @@ export function PayWorkerDialog({
               <h4 className="font-medium">Payment Breakdown:</h4>
               <div className="flex justify-between text-sm">
                 <span>Payment Amount:</span>
-                <span>${grossAmount.toFixed(2)}</span>
+                <span>R{grossAmount.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm text-muted-foreground">
                 <span>Service Fee (3%):</span>
-                <span>-${serviceFee.toFixed(2)}</span>
+                <span>-R{serviceFee.toFixed(2)}</span>
               </div>
               <div className="flex justify-between text-sm font-medium border-t pt-2">
                 <span>Worker Receives:</span>
-                <span>${netAmount.toFixed(2)}</span>
+                <span>R{netAmount.toFixed(2)}</span>
               </div>
             </div>
           )}
@@ -150,7 +150,7 @@ export function PayWorkerDialog({
               Cancel
             </Button>
             <Button type="submit" disabled={loading || !amount}>
-              {loading ? 'Processing...' : `Pay $${grossAmount.toFixed(2)}`}
+              {loading ? 'Processing...' : `Pay R${grossAmount.toFixed(2)}`}
             </Button>
           </div>
         </form>

@@ -11,8 +11,12 @@ import {
   TrendingDown, 
   Plus, 
   History,
-  DollarSign
+  DollarSign,
+  Settings
 } from 'lucide-react';
+import { AddPaymentMethodDialog } from './AddPaymentMethodDialog';
+import { PurchaseCreditsDialog } from './PurchaseCreditsDialog';
+import { WithdrawFundsDialog } from './WithdrawFundsDialog';
 
 interface WalletData {
   balance: number;
@@ -33,6 +37,7 @@ export function WalletComponent() {
   const [wallet, setWallet] = useState<WalletData | null>(null);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
+  const [refreshKey, setRefreshKey] = useState(0);
   const { user } = useAuth();
 
   useEffect(() => {
@@ -40,7 +45,11 @@ export function WalletComponent() {
       fetchWalletData();
       fetchTransactions();
     }
-  }, [user]);
+  }, [user, refreshKey]);
+
+  const refreshData = () => {
+    setRefreshKey(prev => prev + 1);
+  };
 
   const fetchWalletData = async () => {
     try {
@@ -126,7 +135,7 @@ export function WalletComponent() {
             <Wallet className="h-4 w-4 text-muted-foreground" />
           </CardHeader>
           <CardContent>
-            <div className="text-2xl font-bold">${wallet?.balance?.toFixed(2) || '0.00'}</div>
+            <div className="text-2xl font-bold">R{wallet?.balance?.toFixed(2) || '0.00'}</div>
             <p className="text-xs text-muted-foreground">Available credits</p>
           </CardContent>
         </Card>
@@ -138,7 +147,7 @@ export function WalletComponent() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-green-600">
-              ${wallet?.total_earned?.toFixed(2) || '0.00'}
+              R{wallet?.total_earned?.toFixed(2) || '0.00'}
             </div>
             <p className="text-xs text-muted-foreground">Lifetime earnings</p>
           </CardContent>
@@ -151,7 +160,7 @@ export function WalletComponent() {
           </CardHeader>
           <CardContent>
             <div className="text-2xl font-bold text-red-600">
-              ${wallet?.total_spent?.toFixed(2) || '0.00'}
+              R{wallet?.total_spent?.toFixed(2) || '0.00'}
             </div>
             <p className="text-xs text-muted-foreground">Lifetime spending</p>
           </CardContent>
@@ -165,19 +174,23 @@ export function WalletComponent() {
           <CardDescription>Manage your credits and view transaction history</CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="flex gap-4">
-            <Button className="flex items-center gap-2">
-              <Plus className="h-4 w-4" />
-              Add Credits
-            </Button>
-            <Button variant="outline" className="flex items-center gap-2">
-              <TrendingDown className="h-4 w-4" />
-              Withdraw
-            </Button>
+          <div className="flex gap-4 mb-4">
+            <PurchaseCreditsDialog onPurchaseComplete={refreshData} />
+            <WithdrawFundsDialog 
+              currentBalance={wallet?.balance || 0} 
+              onWithdrawalComplete={refreshData} 
+            />
+            <AddPaymentMethodDialog onPaymentMethodAdded={refreshData} />
           </div>
-          <p className="text-sm text-muted-foreground mt-2">
-            Note: Credit purchase and withdrawal features will be available soon with local payment integration.
-          </p>
+          <div className="bg-blue-50 p-4 rounded-md">
+            <h4 className="font-medium text-blue-900 mb-2">Supported in South Africa:</h4>
+            <ul className="text-sm text-blue-800 space-y-1">
+              <li>• All major SA banks (Standard Bank, ABSA, FNB, Nedbank, Capitec)</li>
+              <li>• Visa & Mastercard via PayFast</li>
+              <li>• Instant EFT via Ozow</li>
+              <li>• PayPal for international payments</li>
+            </ul>
+          </div>
         </CardContent>
       </Card>
 
@@ -205,7 +218,7 @@ export function WalletComponent() {
                   </div>
                   <div className="text-right">
                     <p className={`font-medium ${getTransactionColor(transaction.type, transaction.amount)}`}>
-                      {transaction.amount > 0 ? '+' : ''}${Math.abs(transaction.amount).toFixed(2)}
+                      {transaction.amount > 0 ? '+' : ''}R{Math.abs(transaction.amount).toFixed(2)}
                     </p>
                     <Badge variant={transaction.status === 'completed' ? 'default' : 'secondary'}>
                       {transaction.status}

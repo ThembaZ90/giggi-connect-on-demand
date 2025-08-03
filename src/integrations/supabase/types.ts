@@ -14,6 +14,56 @@ export type Database = {
   }
   public: {
     Tables: {
+      credit_purchases: {
+        Row: {
+          amount: number
+          created_at: string
+          credits_amount: number
+          external_transaction_id: string | null
+          failure_reason: string | null
+          id: string
+          payment_method_id: string | null
+          payment_provider: string
+          status: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          credits_amount: number
+          external_transaction_id?: string | null
+          failure_reason?: string | null
+          id?: string
+          payment_method_id?: string | null
+          payment_provider: string
+          status?: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          credits_amount?: number
+          external_transaction_id?: string | null
+          failure_reason?: string | null
+          id?: string
+          payment_method_id?: string | null
+          payment_provider?: string
+          status?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_purchases_payment_method_id_fkey"
+            columns: ["payment_method_id"]
+            isOneToOne: false
+            referencedRelation: "payment_methods"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       credit_transactions: {
         Row: {
           amount: number
@@ -248,6 +298,66 @@ export type Database = {
           },
         ]
       }
+      payment_methods: {
+        Row: {
+          account_holder_name: string | null
+          account_number: string | null
+          account_type: string | null
+          bank_name: string | null
+          branch_code: string | null
+          card_brand: string | null
+          card_last_four: string | null
+          card_token: string | null
+          created_at: string
+          id: string
+          is_default: boolean | null
+          is_verified: boolean | null
+          paypal_email: string | null
+          provider: string
+          type: string
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_holder_name?: string | null
+          account_number?: string | null
+          account_type?: string | null
+          bank_name?: string | null
+          branch_code?: string | null
+          card_brand?: string | null
+          card_last_four?: string | null
+          card_token?: string | null
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          is_verified?: boolean | null
+          paypal_email?: string | null
+          provider: string
+          type: string
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_holder_name?: string | null
+          account_number?: string | null
+          account_type?: string | null
+          bank_name?: string | null
+          branch_code?: string | null
+          card_brand?: string | null
+          card_last_four?: string | null
+          card_token?: string | null
+          created_at?: string
+          id?: string
+          is_default?: boolean | null
+          is_verified?: boolean | null
+          paypal_email?: string | null
+          provider?: string
+          type?: string
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
           bio: string | null
@@ -322,6 +432,59 @@ export type Database = {
           user_id?: string
         }
         Relationships: []
+      }
+      withdrawal_requests: {
+        Row: {
+          amount: number
+          created_at: string
+          external_transaction_id: string | null
+          id: string
+          net_amount: number
+          payment_method_id: string
+          processed_at: string | null
+          processing_notes: string | null
+          status: string
+          updated_at: string
+          user_id: string
+          withdrawal_fee: number
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          external_transaction_id?: string | null
+          id?: string
+          net_amount: number
+          payment_method_id: string
+          processed_at?: string | null
+          processing_notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id: string
+          withdrawal_fee?: number
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          external_transaction_id?: string | null
+          id?: string
+          net_amount?: number
+          payment_method_id?: string
+          processed_at?: string | null
+          processing_notes?: string | null
+          status?: string
+          updated_at?: string
+          user_id?: string
+          withdrawal_fee?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "withdrawal_requests_payment_method_id_fkey"
+            columns: ["payment_method_id"]
+            isOneToOne: false
+            referencedRelation: "payment_methods"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
