@@ -14,6 +14,70 @@ export type Database = {
   }
   public: {
     Tables: {
+      credit_transactions: {
+        Row: {
+          amount: number
+          application_id: string | null
+          balance_after: number
+          created_at: string
+          description: string
+          gig_id: string | null
+          id: string
+          reference_transaction_id: string | null
+          status: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          application_id?: string | null
+          balance_after: number
+          created_at?: string
+          description: string
+          gig_id?: string | null
+          id?: string
+          reference_transaction_id?: string | null
+          status?: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          application_id?: string | null
+          balance_after?: number
+          created_at?: string
+          description?: string
+          gig_id?: string | null
+          id?: string
+          reference_transaction_id?: string | null
+          status?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "credit_transactions_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: false
+            referencedRelation: "gig_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_transactions_gig_id_fkey"
+            columns: ["gig_id"]
+            isOneToOne: false
+            referencedRelation: "gigs"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "credit_transactions_reference_transaction_id_fkey"
+            columns: ["reference_transaction_id"]
+            isOneToOne: false
+            referencedRelation: "credit_transactions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       gig_applications: {
         Row: {
           created_at: string
@@ -59,6 +123,63 @@ export type Database = {
             isOneToOne: false
             referencedRelation: "profiles"
             referencedColumns: ["user_id"]
+          },
+        ]
+      }
+      gig_payments: {
+        Row: {
+          application_id: string
+          created_at: string
+          gig_id: string
+          gross_amount: number
+          id: string
+          net_amount: number
+          payee_id: string
+          payer_id: string
+          payment_status: string
+          service_fee: number
+          updated_at: string
+        }
+        Insert: {
+          application_id: string
+          created_at?: string
+          gig_id: string
+          gross_amount: number
+          id?: string
+          net_amount: number
+          payee_id: string
+          payer_id: string
+          payment_status?: string
+          service_fee: number
+          updated_at?: string
+        }
+        Update: {
+          application_id?: string
+          created_at?: string
+          gig_id?: string
+          gross_amount?: number
+          id?: string
+          net_amount?: number
+          payee_id?: string
+          payer_id?: string
+          payment_status?: string
+          service_fee?: number
+          updated_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "gig_payments_application_id_fkey"
+            columns: ["application_id"]
+            isOneToOne: true
+            referencedRelation: "gig_applications"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "gig_payments_gig_id_fkey"
+            columns: ["gig_id"]
+            isOneToOne: false
+            referencedRelation: "gigs"
+            referencedColumns: ["id"]
           },
         ]
       }
@@ -127,63 +248,6 @@ export type Database = {
           },
         ]
       }
-      payments: {
-        Row: {
-          amount: number
-          application_id: string
-          created_at: string
-          currency: string
-          gig_id: string
-          id: string
-          payee_id: string
-          payer_id: string
-          payment_status: string
-          stripe_session_id: string | null
-          updated_at: string
-        }
-        Insert: {
-          amount: number
-          application_id: string
-          created_at?: string
-          currency?: string
-          gig_id: string
-          id?: string
-          payee_id: string
-          payer_id: string
-          payment_status?: string
-          stripe_session_id?: string | null
-          updated_at?: string
-        }
-        Update: {
-          amount?: number
-          application_id?: string
-          created_at?: string
-          currency?: string
-          gig_id?: string
-          id?: string
-          payee_id?: string
-          payer_id?: string
-          payment_status?: string
-          stripe_session_id?: string | null
-          updated_at?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "payments_application_id_fkey"
-            columns: ["application_id"]
-            isOneToOne: true
-            referencedRelation: "gig_applications"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "payments_gig_id_fkey"
-            columns: ["gig_id"]
-            isOneToOne: false
-            referencedRelation: "gigs"
-            referencedColumns: ["id"]
-          },
-        ]
-      }
       profiles: {
         Row: {
           bio: string | null
@@ -226,6 +290,36 @@ export type Database = {
           updated_at?: string
           user_id?: string
           user_type?: Database["public"]["Enums"]["user_type"]
+        }
+        Relationships: []
+      }
+      wallets: {
+        Row: {
+          balance: number
+          created_at: string
+          id: string
+          total_earned: number
+          total_spent: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number
+          created_at?: string
+          id?: string
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number
+          created_at?: string
+          id?: string
+          total_earned?: number
+          total_spent?: number
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
