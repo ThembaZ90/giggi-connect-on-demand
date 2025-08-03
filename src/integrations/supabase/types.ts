@@ -328,7 +328,19 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      process_gig_payment_transaction: {
+        Args: {
+          p_application_id: string
+          p_gig_id: string
+          p_payer_id: string
+          p_payee_id: string
+          p_gross_amount: number
+          p_service_fee: number
+          p_net_amount: number
+          p_gig_title: string
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       application_status: "pending" | "accepted" | "rejected" | "withdrawn"

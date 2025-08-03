@@ -16,8 +16,11 @@ import {
   Eye,
   CheckCircle,
   XCircle,
-  MessageSquare
+  MessageSquare,
+  Wallet
 } from 'lucide-react';
+import { PayWorkerDialog } from '@/components/PayWorkerDialog';
+import { WalletComponent } from '@/components/WalletComponent';
 
 interface Gig {
   id: string;
@@ -191,6 +194,10 @@ export default function GigPosterDashboard() {
           <TabsTrigger value="applications">
             All Applications ({Object.values(applications).flat().length})
           </TabsTrigger>
+          <TabsTrigger value="wallet">
+            <Wallet className="h-4 w-4 mr-2" />
+            Wallet
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="gigs" className="space-y-6">
@@ -309,6 +316,16 @@ export default function GigPosterDashboard() {
                                 </Button>
                               </div>
                             )}
+
+                            {app.status === 'accepted' && (
+                              <PayWorkerDialog
+                                applicationId={app.id}
+                                workerName={app.profiles.full_name}
+                                gigTitle={gig.title}
+                                proposedRate={app.proposed_rate}
+                                onPaymentComplete={fetchGigs}
+                              />
+                            )}
                           </Card>
                         ))
                       )}
@@ -379,6 +396,16 @@ export default function GigPosterDashboard() {
                             </Button>
                           </div>
                         )}
+
+                        {app.status === 'accepted' && (
+                          <PayWorkerDialog
+                            applicationId={app.id}
+                            workerName={app.profiles.full_name}
+                            gigTitle={gig.title}
+                            proposedRate={app.proposed_rate}
+                            onPaymentComplete={fetchGigs}
+                          />
+                        )}
                       </Card>
                     ))}
                   </CardContent>
@@ -386,6 +413,10 @@ export default function GigPosterDashboard() {
               );
             })
           )}
+        </TabsContent>
+
+        <TabsContent value="wallet">
+          <WalletComponent />
         </TabsContent>
       </Tabs>
     </div>
