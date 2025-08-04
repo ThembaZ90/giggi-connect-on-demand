@@ -358,13 +358,60 @@ export type Database = {
         }
         Relationships: []
       }
+      phone_verification: {
+        Row: {
+          code_expires_at: string | null
+          created_at: string
+          id: string
+          is_verified: boolean
+          last_attempt_at: string | null
+          phone_number: string
+          updated_at: string
+          user_id: string
+          verification_attempts: number
+          verification_code: string | null
+          verified_at: string | null
+        }
+        Insert: {
+          code_expires_at?: string | null
+          created_at?: string
+          id?: string
+          is_verified?: boolean
+          last_attempt_at?: string | null
+          phone_number: string
+          updated_at?: string
+          user_id: string
+          verification_attempts?: number
+          verification_code?: string | null
+          verified_at?: string | null
+        }
+        Update: {
+          code_expires_at?: string | null
+          created_at?: string
+          id?: string
+          is_verified?: boolean
+          last_attempt_at?: string | null
+          phone_number?: string
+          updated_at?: string
+          user_id?: string
+          verification_attempts?: number
+          verification_code?: string | null
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
       profiles: {
         Row: {
+          account_status: string
+          background_check_status:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
           bio: string | null
           created_at: string
           full_name: string
           id: string
           id_photo_url: string | null
+          is_verified: boolean
           location: string | null
           phone: string | null
           rating: number | null
@@ -372,13 +419,19 @@ export type Database = {
           updated_at: string
           user_id: string
           user_type: Database["public"]["Enums"]["user_type"]
+          verification_level: number
         }
         Insert: {
+          account_status?: string
+          background_check_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
           bio?: string | null
           created_at?: string
           full_name: string
           id?: string
           id_photo_url?: string | null
+          is_verified?: boolean
           location?: string | null
           phone?: string | null
           rating?: number | null
@@ -386,13 +439,19 @@ export type Database = {
           updated_at?: string
           user_id: string
           user_type?: Database["public"]["Enums"]["user_type"]
+          verification_level?: number
         }
         Update: {
+          account_status?: string
+          background_check_status?:
+            | Database["public"]["Enums"]["verification_status"]
+            | null
           bio?: string | null
           created_at?: string
           full_name?: string
           id?: string
           id_photo_url?: string | null
+          is_verified?: boolean
           location?: string | null
           phone?: string | null
           rating?: number | null
@@ -400,6 +459,181 @@ export type Database = {
           updated_at?: string
           user_id?: string
           user_type?: Database["public"]["Enums"]["user_type"]
+          verification_level?: number
+        }
+        Relationships: []
+      }
+      sa_id_verification: {
+        Row: {
+          citizenship: string
+          created_at: string
+          date_of_birth: string
+          first_names: string
+          gender: string
+          id: string
+          id_number: string
+          surname: string
+          updated_at: string
+          user_id: string
+          verification_notes: string | null
+          verification_score: number | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          verified_at: string | null
+        }
+        Insert: {
+          citizenship: string
+          created_at?: string
+          date_of_birth: string
+          first_names: string
+          gender: string
+          id?: string
+          id_number: string
+          surname: string
+          updated_at?: string
+          user_id: string
+          verification_notes?: string | null
+          verification_score?: number | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+        }
+        Update: {
+          citizenship?: string
+          created_at?: string
+          date_of_birth?: string
+          first_names?: string
+          gender?: string
+          id?: string
+          id_number?: string
+          surname?: string
+          updated_at?: string
+          user_id?: string
+          verification_notes?: string | null
+          verification_score?: number | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+        }
+        Relationships: []
+      }
+      security_settings: {
+        Row: {
+          account_locked: boolean
+          created_at: string
+          email_notifications: boolean
+          failed_login_attempts: number
+          id: string
+          last_failed_login_at: string | null
+          lock_reason: string | null
+          locked_at: string | null
+          sms_notifications: boolean
+          two_factor_enabled: boolean
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          account_locked?: boolean
+          created_at?: string
+          email_notifications?: boolean
+          failed_login_attempts?: number
+          id?: string
+          last_failed_login_at?: string | null
+          lock_reason?: string | null
+          locked_at?: string | null
+          sms_notifications?: boolean
+          two_factor_enabled?: boolean
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          account_locked?: boolean
+          created_at?: string
+          email_notifications?: boolean
+          failed_login_attempts?: number
+          id?: string
+          last_failed_login_at?: string | null
+          lock_reason?: string | null
+          locked_at?: string | null
+          sms_notifications?: boolean
+          two_factor_enabled?: boolean
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      user_reports: {
+        Row: {
+          admin_notes: string | null
+          created_at: string
+          description: string
+          evidence_urls: string[] | null
+          id: string
+          report_type: string
+          reported_user_id: string
+          reporter_id: string
+          resolved_at: string | null
+          status: string
+          updated_at: string
+        }
+        Insert: {
+          admin_notes?: string | null
+          created_at?: string
+          description: string
+          evidence_urls?: string[] | null
+          id?: string
+          report_type: string
+          reported_user_id: string
+          reporter_id: string
+          resolved_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Update: {
+          admin_notes?: string | null
+          created_at?: string
+          description?: string
+          evidence_urls?: string[] | null
+          id?: string
+          report_type?: string
+          reported_user_id?: string
+          reporter_id?: string
+          resolved_at?: string | null
+          status?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      verification_documents: {
+        Row: {
+          created_at: string
+          document_type: string
+          document_url: string
+          id: string
+          updated_at: string
+          user_id: string
+          verification_notes: string | null
+          verification_status: Database["public"]["Enums"]["verification_status"]
+          verified_at: string | null
+        }
+        Insert: {
+          created_at?: string
+          document_type: string
+          document_url: string
+          id?: string
+          updated_at?: string
+          user_id: string
+          verification_notes?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
+        }
+        Update: {
+          created_at?: string
+          document_type?: string
+          document_url?: string
+          id?: string
+          updated_at?: string
+          user_id?: string
+          verification_notes?: string | null
+          verification_status?: Database["public"]["Enums"]["verification_status"]
+          verified_at?: string | null
         }
         Relationships: []
       }
@@ -491,6 +725,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      extract_sa_id_info: {
+        Args: { id_number: string }
+        Returns: Json
+      }
       process_gig_payment_transaction: {
         Args: {
           p_application_id: string
@@ -503,6 +741,10 @@ export type Database = {
           p_gig_title: string
         }
         Returns: undefined
+      }
+      validate_sa_id_number: {
+        Args: { id_number: string }
+        Returns: boolean
       }
     }
     Enums: {
@@ -520,6 +762,7 @@ export type Database = {
         | "other"
       gig_status: "open" | "in_progress" | "completed" | "cancelled"
       user_type: "job_poster" | "gig_worker" | "both"
+      verification_status: "pending" | "in_review" | "approved" | "rejected"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -662,6 +905,7 @@ export const Constants = {
       ],
       gig_status: ["open", "in_progress", "completed", "cancelled"],
       user_type: ["job_poster", "gig_worker", "both"],
+      verification_status: ["pending", "in_review", "approved", "rejected"],
     },
   },
 } as const
