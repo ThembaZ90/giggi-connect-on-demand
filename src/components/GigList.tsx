@@ -5,10 +5,11 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Search, MapPin, Clock, DollarSign, Phone } from 'lucide-react';
+import { Search, MapPin, Clock, DollarSign, Phone, MessageCircle } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
 import { GigApplicationDialog } from './GigApplicationDialog';
+import { ChatDialog } from './ChatDialog';
 
 interface Gig {
   id: string;
@@ -36,6 +37,8 @@ export function GigList() {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [sortBy, setSortBy] = useState<string>('newest');
+  const [selectedChatGig, setSelectedChatGig] = useState<Gig | null>(null);
+  const [chatDialogOpen, setChatDialogOpen] = useState(false);
   const { toast } = useToast();
   const { user } = useAuth();
 
@@ -127,6 +130,11 @@ export function GigList() {
     return category.split('_').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
     ).join(' ');
+  };
+
+  const handleChatClick = (gig: Gig) => {
+    setSelectedChatGig(gig);
+    setChatDialogOpen(true);
   };
 
   if (loading) {
@@ -271,13 +279,24 @@ export function GigList() {
                       </Button>
                     )}
                     {user && user.id !== gig.poster_id ? (
-                      <GigApplicationDialog
-                        gigId={gig.id}
-                        gigTitle={gig.title}
-                        budgetMin={gig.budget_min}
-                        budgetMax={gig.budget_max}
-                        onApplicationSubmitted={fetchGigs}
-                      />
+                      <>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          onClick={() => handleChatClick(gig)}
+                          className="flex items-center gap-1"
+                        >
+                          <MessageCircle className="h-3 w-3" />
+                          Chat
+                        </Button>
+                        <GigApplicationDialog
+                          gigId={gig.id}
+                          gigTitle={gig.title}
+                          budgetMin={gig.budget_min}
+                          budgetMax={gig.budget_max}
+                          onApplicationSubmitted={fetchGigs}
+                        />
+                      </>
                     ) : (
                       user && user.id === gig.poster_id && (
                         <Badge variant="outline" className="text-xs">
@@ -291,6 +310,18 @@ export function GigList() {
             </Card>
           ))}
         </div>
+      )}
+
+      {selectedChatGig && (
+        <ChatDialog
+          open={chatDialogOpen}
+          onOpenChange={setChatDialogOpen}
+          gigId={selectedChatGig.id}
+          gigTitle={selectedChatGig.title}
+          otherUserId={selectedChatGig.poster_id}
+          otherUserName={selectedChatGig.profiles?.full_name || 'Anonymous'}
+          isGigPoster={false}
+        />
       )}
     </div>
   );

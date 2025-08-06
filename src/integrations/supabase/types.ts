@@ -14,6 +14,39 @@ export type Database = {
   }
   public: {
     Tables: {
+      conversations: {
+        Row: {
+          application_id: string | null
+          created_at: string
+          gig_id: string
+          id: string
+          last_message_at: string | null
+          poster_id: string
+          updated_at: string
+          worker_id: string
+        }
+        Insert: {
+          application_id?: string | null
+          created_at?: string
+          gig_id: string
+          id?: string
+          last_message_at?: string | null
+          poster_id: string
+          updated_at?: string
+          worker_id: string
+        }
+        Update: {
+          application_id?: string | null
+          created_at?: string
+          gig_id?: string
+          id?: string
+          last_message_at?: string | null
+          poster_id?: string
+          updated_at?: string
+          worker_id?: string
+        }
+        Relationships: []
+      }
       credit_purchases: {
         Row: {
           amount: number
@@ -297,6 +330,36 @@ export type Database = {
             referencedColumns: ["user_id"]
           },
         ]
+      }
+      messages: {
+        Row: {
+          content: string
+          conversation_id: string
+          created_at: string
+          id: string
+          is_read: boolean
+          message_type: string
+          sender_id: string
+        }
+        Insert: {
+          content: string
+          conversation_id: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message_type?: string
+          sender_id: string
+        }
+        Update: {
+          content?: string
+          conversation_id?: string
+          created_at?: string
+          id?: string
+          is_read?: boolean
+          message_type?: string
+          sender_id?: string
+        }
+        Relationships: []
       }
       payment_methods: {
         Row: {

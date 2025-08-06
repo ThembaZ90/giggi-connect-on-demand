@@ -4,9 +4,10 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { useNavigate } from 'react-router-dom';
-import { LogOut, User, MapPin, Briefcase, Zap, Search, FileText, LayoutDashboard, HelpCircle } from 'lucide-react';
+import { LogOut, User, MapPin, Briefcase, Zap, Search, FileText, LayoutDashboard, HelpCircle, MessageCircle } from 'lucide-react';
 import { GigList } from '@/components/GigList';
 import { MyApplications } from '@/components/MyApplications';
+import { ConversationsList } from '@/components/ConversationsList';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 
 const Index = () => {
@@ -209,7 +210,7 @@ const Index = () => {
 
         {/* Main Content Tabs */}
         <Tabs defaultValue="browse-gigs" className="w-full">
-          <TabsList className="grid w-full grid-cols-2 max-w-md mx-auto mb-8">
+          <TabsList className="grid w-full grid-cols-3 max-w-lg mx-auto mb-8">
             <TabsTrigger value="browse-gigs" className="flex items-center gap-2">
               <Search className="h-4 w-4" />
               Browse Gigs
@@ -217,6 +218,10 @@ const Index = () => {
             <TabsTrigger value="my-applications" className="flex items-center gap-2">
               <FileText className="h-4 w-4" />
               My Applications
+            </TabsTrigger>
+            <TabsTrigger value="messages" className="flex items-center gap-2">
+              <MessageCircle className="h-4 w-4" />
+              Messages
             </TabsTrigger>
           </TabsList>
 
@@ -230,6 +235,14 @@ const Index = () => {
 
           <TabsContent value="my-applications">
             <MyApplications />
+          </TabsContent>
+
+          <TabsContent value="messages">
+            <div className="flex items-center gap-2 mb-6">
+              <MessageCircle className="h-5 w-5" />
+              <h2 className="text-2xl font-bold">Messages</h2>
+            </div>
+            <ConversationsList />
           </TabsContent>
         </Tabs>
       </div>
