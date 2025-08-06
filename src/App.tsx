@@ -10,6 +10,7 @@ import ProfileSetup from "./pages/ProfileSetup";
 import CreateGig from "./pages/CreateGig";
 import GigPosterDashboard from "./pages/GigPosterDashboard";
 import Security from "./pages/Security";
+import Support from "./pages/Support";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/create-gig" element={<CreateGig />} />
             <Route path="/dashboard" element={<GigPosterDashboard />} />
             <Route path="/security" element={<Security />} />
+            <Route path="/support" element={<Support />} />
             {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
