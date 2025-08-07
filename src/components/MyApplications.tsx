@@ -6,7 +6,9 @@ import { Button } from '@/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { useToast } from '@/hooks/use-toast';
 import { useAuth } from '@/hooks/useAuth';
-import { Clock, DollarSign, MapPin, User, CheckCircle, XCircle, MessageSquare } from 'lucide-react';
+import { Clock, DollarSign, MapPin, User, CheckCircle, XCircle, MessageSquare, Star } from 'lucide-react';
+import { ReviewDialog } from './ReviewDialog';
+import { StarRating } from './StarRating';
 
 interface Application {
   id: string;
@@ -33,7 +35,10 @@ interface ReceivedApplication {
   message: string;
   proposed_rate: number | null;
   created_at: string;
+  gig_id: string;
+  worker_id: string;
   worker_profiles: {
+    user_id: string;
     full_name: string;
     phone: string | null;
     rating: number | null;
@@ -45,6 +50,13 @@ export function MyApplications() {
   const [myApplications, setMyApplications] = useState<Application[]>([]);
   const [receivedApplications, setReceivedApplications] = useState<ReceivedApplication[]>([]);
   const [loading, setLoading] = useState(true);
+  const [reviewDialog, setReviewDialog] = useState<{
+    open: boolean;
+    revieweeId: string;
+    revieweeName: string;
+    gigId: string;
+    gigTitle: string;
+  }>({ open: false, revieweeId: '', revieweeName: '', gigId: '', gigTitle: '' });
   const { toast } = useToast();
   const { user } = useAuth();
 
@@ -84,6 +96,7 @@ export function MyApplications() {
         .select(`
           *,
           worker_profiles:profiles!gig_applications_worker_id_fkey (
+            user_id,
             full_name,
             phone,
             rating,
@@ -242,14 +255,14 @@ export function MyApplications() {
                       <User className="h-5 w-5" />
                       {application.worker_profiles.full_name}
                     </CardTitle>
-                    <CardDescription className="flex items-center gap-4 mt-1">
-                      {application.worker_profiles.rating && (
-                        <span>⭐ {application.worker_profiles.rating.toFixed(1)}</span>
-                      )}
-                      {application.worker_profiles.total_jobs_completed && (
-                        <span>{application.worker_profiles.total_jobs_completed} jobs completed</span>
-                      )}
-                    </CardDescription>
+                     <CardDescription className="flex items-center gap-4 mt-1">
+                       {application.worker_profiles.rating && application.worker_profiles.rating > 0 && (
+                         <StarRating rating={application.worker_profiles.rating} readonly size="sm" />
+                       )}
+                       {application.worker_profiles.total_jobs_completed && (
+                         <span>{application.worker_profiles.total_jobs_completed} jobs completed</span>
+                       )}
+                     </CardDescription>
                   </div>
                   <Badge variant={getStatusColor(application.status)}>
                     {application.status.charAt(0).toUpperCase() + application.status.slice(1)}
@@ -271,27 +284,45 @@ export function MyApplications() {
                     <Clock className="h-3 w-3" />
                     Applied {new Date(application.created_at).toLocaleDateString()}
                   </div>
-                  {application.status === 'pending' && (
-                    <div className="flex gap-2">
-                      <Button
-                        size="sm"
-                        variant="outline"
-                        onClick={() => updateApplicationStatus(application.id, 'rejected')}
-                        className="text-destructive border-destructive hover:bg-destructive hover:text-white"
-                      >
-                        <XCircle className="h-4 w-4 mr-1" />
-                        Reject
-                      </Button>
-                      <Button
-                        size="sm"
-                        onClick={() => updateApplicationStatus(application.id, 'accepted')}
-                        className="bg-green-600 hover:bg-green-700"
-                      >
-                        <CheckCircle className="h-4 w-4 mr-1" />
-                        Accept
-                      </Button>
-                    </div>
-                  )}
+                   <div className="flex gap-2">
+                     {application.status === 'pending' && (
+                       <>
+                         <Button
+                           size="sm"
+                           variant="outline"
+                           onClick={() => updateApplicationStatus(application.id, 'rejected')}
+                           className="text-destructive border-destructive hover:bg-destructive hover:text-white"
+                         >
+                           <XCircle className="h-4 w-4 mr-1" />
+                           Reject
+                         </Button>
+                         <Button
+                           size="sm"
+                           onClick={() => updateApplicationStatus(application.id, 'accepted')}
+                           className="bg-green-600 hover:bg-green-700"
+                         >
+                           <CheckCircle className="h-4 w-4 mr-1" />
+                           Accept
+                         </Button>
+                       </>
+                     )}
+                     {application.status === 'completed' && (
+                       <Button
+                         size="sm"
+                         variant="outline"
+                         onClick={() => setReviewDialog({
+                           open: true,
+                            revieweeId: application.worker_profiles.user_id,
+                            revieweeName: application.worker_profiles.full_name,
+                            gigId: application.gig_id,
+                            gigTitle: 'Gig'
+                         })}
+                       >
+                         <Star className="h-4 w-4 mr-1" />
+                         Rate Worker
+                       </Button>
+                     )}
+                   </div>
                 </div>
                 {application.worker_profiles.phone && (
                   <div className="pt-2 border-t">
@@ -305,6 +336,19 @@ export function MyApplications() {
           ))
         )}
       </TabsContent>
+
+      <ReviewDialog
+        open={reviewDialog.open}
+        onOpenChange={(open) => setReviewDialog(prev => ({ ...prev, open }))}
+        revieweeId={reviewDialog.revieweeId}
+        revieweeName={reviewDialog.revieweeName}
+        gigId={reviewDialog.gigId}
+        gigTitle={reviewDialog.gigTitle}
+        onReviewSubmitted={() => {
+          setReviewDialog(prev => ({ ...prev, open: false }));
+          fetchApplications();
+        }}
+      />
     </Tabs>
   );
 }

@@ -526,6 +526,39 @@ export type Database = {
         }
         Relationships: []
       }
+      reviews: {
+        Row: {
+          created_at: string
+          gig_id: string | null
+          id: string
+          rating: number
+          review_text: string | null
+          reviewee_id: string
+          reviewer_id: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          gig_id?: string | null
+          id?: string
+          rating: number
+          review_text?: string | null
+          reviewee_id: string
+          reviewer_id: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          gig_id?: string | null
+          id?: string
+          rating?: number
+          review_text?: string | null
+          reviewee_id?: string
+          reviewer_id?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sa_id_verification: {
         Row: {
           citizenship: string
@@ -788,6 +821,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      calculate_user_rating: {
+        Args: { user_id: string }
+        Returns: number
+      }
       extract_sa_id_info: {
         Args: { id_number: string }
         Returns: Json
